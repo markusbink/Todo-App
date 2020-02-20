@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { TodoContext } from "../contexts/TodoContext";
 import styled from 'styled-components';
-import { findByLabelText } from '@testing-library/react';
 
 const InputWrapper = styled.div`
     display: flex;
@@ -14,14 +13,19 @@ const StyledInput = styled.input`
     padding: 15px 20px;
     font-size: 14px;
     background: #35374b;
-    color: #888;
+    color: #fff;
     width: 100%;
     box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 const StyledButton = styled.button`
     border: 0;
     padding: 15px 20px;
+    width: 140px;
     font-size: 14px;
     float: right;
     background: #5a4fff;
@@ -30,10 +34,6 @@ const StyledButton = styled.button`
     cursor: pointer;
 `;
 
-
-
-
-
 const AddTodo = () => {
 
     const { addTodo, handleTodoInput } = useContext(TodoContext);
@@ -41,7 +41,7 @@ const AddTodo = () => {
     return (
         <InputWrapper>
         <StyledInput type="text" placeholder="Add a new Todo..." onChange={handleTodoInput} />
-        <StyledButton onClick={addTodo}>Add Item</StyledButton>
+        <StyledButton onClick={addTodo}>Add Item +</StyledButton>
         </InputWrapper>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import styled, { css } from 'styled-components';
-import { TodoContext } from "../contexts/TodoContext";
+import styled from 'styled-components';
+import { TodoContext } from '../contexts/TodoContext';
+import Checkbox from './Checkbox';
 
 const StyledTodo = styled.div`
     background: #35374b;
@@ -24,14 +25,6 @@ const StyledTitle = styled.h3`
     `};
 `;
 
-const StyledDescription = styled.p`
-    margin: 0;
-    color: #888;
-    ${props => props.isCompleted &&`
-        text-decoration: line-through;
-    `};
-`;
-
 const InfoWrapper = styled.div`
     margin-left: 20px;
 `;
@@ -44,10 +37,9 @@ const Todo = (props) => {
     return (
         <React.Fragment>
             <StyledTodo onClick={() => handleCheckboxChange(todo.title)}>
-                <input checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo.title)} type="checkbox"/>
+                <Checkbox checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo.title)}/>
                 <InfoWrapper>
                     <StyledTitle isCompleted={todo.isCompleted}>{todo.title}</StyledTitle>
-                    <StyledDescription isCompleted={todo.isCompleted}>{todo.description}</StyledDescription>
                 </InfoWrapper>
             </StyledTodo>
         </React.Fragment>

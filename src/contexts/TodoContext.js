@@ -5,21 +5,17 @@ export const TodoContext = createContext();
 const TodoContextProvider = props => {
 
     const [todoInput, setTodoInput] = useState('');
-
     const [todos, setTodos] = useState([
         {
             title: 'Clean room',
-            description: 'Clean room and tidy things up',
             isCompleted: true
         },
         {
             title: 'Create Website',
-            description: 'Create the first iteration of the design',
             isCompleted: false
         },
         {
             title: 'Eat lunch',
-            description: 'Burger and Fries would be nice',
             isCompleted: false
         }
     ]);
@@ -47,13 +43,13 @@ const TodoContextProvider = props => {
         }
 
         const newTodo = {
-            title: todoInput
+            title: todoInput,
+            isCompleted: false
         }
 
         setTodos([...todos, newTodo]);
         setTodoInput('');
     }
-
 
     return (
         <TodoContext.Provider value={{todos, addTodo, todoInput, handleTodoInput, handleCheckboxChange}}>
