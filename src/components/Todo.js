@@ -13,6 +13,7 @@ const StyledTodo = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    user-select: none;
 `;
 
 const StyledTitle = styled.h3`
