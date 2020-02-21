@@ -40,7 +40,7 @@ const AddTodo = () => {
 
     return (
         <InputWrapper>
-        <StyledInput type="text" placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
+        <StyledInput onKeyPress={addTodo} type="text" placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
         <StyledButton onClick={addTodo}>Add Item +</StyledButton>
         </InputWrapper>
     )

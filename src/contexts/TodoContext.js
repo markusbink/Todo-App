@@ -36,9 +36,9 @@ const TodoContextProvider = props => {
         )
     }
 
-    const addTodo = () => {
-
-        if(todoInput.length === 0) {
+    const addTodo = (e) => {
+        
+        if(todoInput.length === 0 || e.key !== 'Enter') {
             return;
         }
 
