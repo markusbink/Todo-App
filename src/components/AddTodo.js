@@ -36,11 +36,11 @@ const StyledButton = styled.button`
 
 const AddTodo = () => {
 
-    const { addTodo, handleTodoInput } = useContext(TodoContext);
+    const { addTodo, todoInput, handleTodoInput } = useContext(TodoContext);
 
     return (
         <InputWrapper>
-        <StyledInput type="text" placeholder="Add a new Todo..." onChange={handleTodoInput} />
+        <StyledInput type="text" placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
         <StyledButton onClick={addTodo}>Add Item +</StyledButton>
         </InputWrapper>
     )
