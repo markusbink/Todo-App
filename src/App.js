@@ -1,13 +1,14 @@
 import React from 'react';
+import styled from 'styled-components';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
+import Header from './components/Header';
 import TodoContextProvider from './contexts/TodoContext';
-import styled from 'styled-components';
+import ThemeContextProvider from './contexts/ThemeContext';
 
 const StyledApp = styled.div`
   background: #1f212d;
   height: 100vh;
-  padding: 80px 40px;
 `;
 
 const StyledWrapper = styled.section`
@@ -24,16 +25,21 @@ const StyledTitle = styled.h2`
 `;
 
 function App() {
+
+
   return (
-    <StyledApp className="App">
-      <TodoContextProvider>
+    <ThemeContextProvider>
+    <TodoContextProvider>
+      <StyledApp className="App">
+        <Header/>
         <StyledWrapper>
           <StyledTitle>Daily-Todo</StyledTitle>
-          <Todos/>
-          <AddTodo/>
+          <Todos />
+          <AddTodo />
         </StyledWrapper>
-      </TodoContextProvider>
-    </StyledApp>
+      </StyledApp>
+    </TodoContextProvider>
+    </ThemeContextProvider>
   );
 }
 

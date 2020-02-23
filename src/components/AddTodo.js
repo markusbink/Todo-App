@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { TodoContext } from "../contexts/TodoContext";
+import { ThemeContext } from "../contexts/ThemeContext";
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -9,11 +10,11 @@ const InputWrapper = styled.div`
 `;
 
 const StyledInput = styled.input`
+    background: ${props => props.isDarkmodeEnabled ? '#35374b' : '#f5f5f5'};
     border: 0;
     padding: 15px 20px;
     font-size: 14px;
-    background: #35374b;
-    color: #fff;
+    color: ${props => props.isDarkmodeEnabled ? 'white' : '#888'};
     width: 100%;
     box-sizing: border-box;
 
@@ -37,10 +38,11 @@ const StyledButton = styled.button`
 const AddTodo = () => {
 
     const { addTodo, todoInput, handleTodoInput } = useContext(TodoContext);
+    const { isDarkmodeEnabled } = useContext(ThemeContext);
 
     return (
         <InputWrapper>
-        <StyledInput onKeyPress={addTodo} type="text" placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
+        <StyledInput isDarkmodeEnabled={isDarkmodeEnabled} onKeyPress={addTodo} type="text" placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
         <StyledButton onClick={addTodo}>Add Item +</StyledButton>
         </InputWrapper>
     )
