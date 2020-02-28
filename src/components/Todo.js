@@ -19,7 +19,7 @@ const StyledTodo = styled.div`
 
 const StyledTitle = styled.h3`
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 0;
     color: ${props => props.isDarkmodeEnabled ? 'white' : 'black'};
     ${props => props.isCompleted &&`
         text-decoration: line-through;
@@ -28,7 +28,19 @@ const StyledTitle = styled.h3`
 `;
 
 const InfoWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
     margin-left: 20px;
+    width: 100%;
+`;
+
+const StyledPriority = styled.span`
+    color: white;
+    background: rgba(255,255,255,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: 600;
 `;
 
 
@@ -43,6 +55,7 @@ const Todo = (props) => {
                 <Checkbox checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo.title)}/>
                 <InfoWrapper>
                     <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.isCompleted}>{todo.title}</StyledTitle>
+                    <StyledPriority>{todo.priority}</StyledPriority>
                 </InfoWrapper>
             </StyledTodo>
         </React.Fragment>

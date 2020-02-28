@@ -5,23 +5,31 @@ export const TodoContext = createContext();
 const TodoContextProvider = props => {
 
     const [todoInput, setTodoInput] = useState('');
+    const [priority, setPriority] = useState(0);
     const [todos, setTodos] = useState([
         {
             title: 'Clean room',
+            priority: 1,
             isCompleted: true
         },
         {
             title: 'Create Website',
+            priority: 1,
             isCompleted: false
         },
         {
             title: 'Eat lunch',
+            priority: 1,
             isCompleted: false
         }
     ]);
 
     const handleTodoInput = (e) => {
         setTodoInput(e.target.value);
+    }
+
+    const handlePriority = (e) => {
+        setPriority(e.target.value);
     }
 
     const handleCheckboxChange = (title) => {
@@ -36,23 +44,26 @@ const TodoContextProvider = props => {
         )
     }
 
-    const addTodo = (e) => {
-        
-        if(todoInput.length === 0 || e.key !== 'Enter') {
+    const handleTodoSubmit = (e) => {
+        e.preventDefault();       
+
+        if(todoInput.length === 0 || priority.length === 0) {
             return;
         }
 
         const newTodo = {
-            title: todoInput,
+            title: todoInput.trim(),
+            priority,
             isCompleted: false
         }
 
         setTodos([...todos, newTodo]);
         setTodoInput('');
+        setPriority(0);
     }
 
     return (
-        <TodoContext.Provider value={{todos, addTodo, todoInput, handleTodoInput, handleCheckboxChange}}>
+        <TodoContext.Provider value={{todos, handleTodoSubmit, todoInput, priority, handleTodoInput, handleCheckboxChange, handlePriority}}>
             {props.children}
         </TodoContext.Provider>
     )

@@ -26,7 +26,6 @@ const StyledTitle = styled.h2`
 
 function App() {
 
-
   return (
     <ThemeContextProvider>
     <TodoContextProvider>
