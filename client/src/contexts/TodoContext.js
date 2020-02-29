@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
+import axios from 'axios';
 
 export const TodoContext = createContext();
 
@@ -6,23 +7,23 @@ const TodoContextProvider = props => {
 
     const [todoInput, setTodoInput] = useState('');
     const [priority, setPriority] = useState(0);
-    const [todos, setTodos] = useState([
-        {
-            title: 'Clean room',
-            priority: 3,
-            isCompleted: true
-        },
-        {
-            title: 'Create Website',
-            priority: 10,
-            isCompleted: false
-        },
-        {
-            title: 'Eat lunch',
-            priority: 1,
-            isCompleted: false
+    const [todos, setTodos] = useState([]);
+
+    // Render all Todos on component mount
+    useEffect(() => {
+        async function fetchTodos() {
+            try {
+                const response = await axios.get('api/todos');
+                if(response.status !== 200) {
+                    return;
+                }
+                setTodos(response.data);
+            } catch(error) {
+                console.log(error);
+            }
         }
-    ]);
+        fetchTodos();
+    }, []);
 
     const handleTodoInput = (e) => {
         setTodoInput(e.target.value);
@@ -32,10 +33,10 @@ const TodoContextProvider = props => {
         setPriority(e.target.value);
     }
 
-    const handleCheckboxChange = (title) => {
+    const handleCheckboxChange = (id) => {
         setTodos(
             todos.map(prevTodo => {
-                if(prevTodo.title !== title) {
+                if(prevTodo._id !== id) {
                     return prevTodo;
                 };
                 prevTodo.isCompleted = !prevTodo.isCompleted;

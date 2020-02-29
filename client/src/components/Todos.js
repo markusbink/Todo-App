@@ -17,7 +17,7 @@ const Todos = () => {
     return (
         <TodosWrapper>
           {sortedTodos.map(todo => {
-            return <Todo todo={todo} key={todo.title} />;
+            return <Todo todo={todo} key={todo._id} />;
           })}
         </TodosWrapper>
       );

@@ -51,8 +51,8 @@ const Todo = (props) => {
 
     return (
         <React.Fragment>
-            <StyledTodo isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => handleCheckboxChange(todo.title)}>
-                <Checkbox checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo.title)}/>
+            <StyledTodo isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => handleCheckboxChange(todo._id)}>
+                <Checkbox checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo._id)}/>
                 <InfoWrapper>
                     <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.isCompleted}>{todo.title}</StyledTitle>
                     <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
