@@ -9,10 +9,14 @@ const TodosWrapper = styled.section`
 
 const Todos = () => {
     const { todos } = useContext(TodoContext);
+
+    // Sort todos based on their priority
+    const sortedTodos = [...todos];
+    sortedTodos.sort((a, b) => a.priority - b.priority);
     
     return (
         <TodosWrapper>
-          {todos.map(todo => {
+          {sortedTodos.map(todo => {
             return <Todo todo={todo} key={todo.title} />;
           })}
         </TodosWrapper>

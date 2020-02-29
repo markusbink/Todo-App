@@ -9,12 +9,12 @@ const TodoContextProvider = props => {
     const [todos, setTodos] = useState([
         {
             title: 'Clean room',
-            priority: 1,
+            priority: 3,
             isCompleted: true
         },
         {
             title: 'Create Website',
-            priority: 1,
+            priority: 10,
             isCompleted: false
         },
         {
