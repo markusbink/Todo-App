@@ -6,7 +6,6 @@ import styled from 'styled-components';
 const FormWrapper = styled.form`
     overflow: hidden;
     margin-top: 20px;
-    padding: 10px;
 `;
 
 const InputWrapper = styled.div`

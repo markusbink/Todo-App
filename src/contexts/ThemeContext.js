@@ -4,7 +4,7 @@ export const ThemeContext = createContext();
 
 const ThemeContextProvider = props => {
 
-    const [isDarkmodeEnabled, setDarkmode] = useState(true)
+    const [isDarkmodeEnabled, setDarkmode] = useState(false);
 
     const toggleDarkmode = (e) => {
         e.stopPropagation();

@@ -43,8 +43,8 @@ const StyledSwitch = styled.div`
   display: inline-block;
   width: 50px;
   height: 25px;
-  background: ${props => (props.checked ? '#5a4fff' : 'transparent')};
-  border: ${props => props.checked ? '2px solid transparent' : '2px solid white'};
+  background: ${props => (props.checked ? '#5a4fff' : '#f2f2f2')};
+  border: ${props => props.checked ? '2px solid transparent' : '2px solid transparent'};
   border-radius: 3px;
   transition: all 150ms;
   border-radius: 50px;

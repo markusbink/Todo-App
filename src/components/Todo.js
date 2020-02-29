@@ -35,7 +35,7 @@ const InfoWrapper = styled.div`
 `;
 
 const StyledPriority = styled.span`
-    color: white;
+    color: ${props => props.isDarkmodeEnabled ? 'white' : 'black'};
     background: rgba(255,255,255,0.1);
     padding: 2px 6px;
     border-radius: 4px;
@@ -55,7 +55,7 @@ const Todo = (props) => {
                 <Checkbox checked={todo.isCompleted} onChange={() => handleCheckboxChange(todo.title)}/>
                 <InfoWrapper>
                     <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.isCompleted}>{todo.title}</StyledTitle>
-                    <StyledPriority>{todo.priority}</StyledPriority>
+                    <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
                 </InfoWrapper>
             </StyledTodo>
         </React.Fragment>
