@@ -39,7 +39,7 @@ const TodoContextProvider = props => {
                 if(prevTodo._id !== id) {
                     return prevTodo;
                 };
-                prevTodo.isCompleted = !prevTodo.isCompleted;
+                prevTodo.completed = !prevTodo.completed;
                 return prevTodo;
             })
         )
