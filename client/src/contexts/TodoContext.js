@@ -58,20 +58,24 @@ const TodoContextProvider = props => {
         )
     }
 
-    const handleTodoSubmit = (e) => {
+    const handleTodoSubmit = async (e) => {
         e.preventDefault();       
 
         if(todoInput.length === 0 || priority.length === 0) {
             return;
         }
 
-        const newTodo = {
-            title: todoInput.trim(),
-            priority,
-            isCompleted: false
+        const response = await axios.post('api/todos/create',
+        {
+            'title': todoInput.trim(),
+            priority
+        });
+
+        if(response.status !== 200) {
+            return;
         }
 
-        setTodos([...todos, newTodo]);
+        setTodos([...todos, response.data]);
         setTodoInput('');
         setPriority(0);
     }
