@@ -1,5 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const connectToDB = require('./config/db');
+const todosRouter = require('./routes/todos');
+
+// Get Environment Variables
+dotenv.config({path: './config/config.env'});
+connectToDB();
 
 const app = express();
 
@@ -8,13 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Listen to Port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));
 
 // Routes
-app.get('/', (req, res) => {
-    res.send("Hello");
-});
+app.use('/api/todos', todosRouter);
 
 
 
