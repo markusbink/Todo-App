@@ -29,10 +29,27 @@ router.post('/create', async (req, res) => {
     // Save todo to DB
     try {
         await todo.save();
-        res.json(todo);
+        res.status(200).json(todo);
     } catch(error) {
         res.status(400).json({error});
     }
+});
+
+// @route POST /api/todos/complete
+// @desc Toggle complete status of a todo item
+// @access Public
+router.post('/complete', async (req, res) => {
+    // Get request params    
+    const { _id, completed } = req.body;
+    // Toggle complete
+    try {
+        const todo = await Todo.findById(_id);
+        todo.completed = completed;
+        await todo.save();
+        res.status(200).json(todo);
+    } catch(error) {
+        res.status(400).json({error});
+    };
 });
 
 module.exports = router;

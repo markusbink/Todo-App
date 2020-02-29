@@ -33,10 +33,23 @@ const TodoContextProvider = props => {
         setPriority(e.target.value);
     }
 
-    const handleCheckboxChange = (id) => {
+    const handleCheckboxChange = async (_id) => {
+        // Get Todo by Id
+        const todo = todos.filter(todo => todo._id === _id)[0];
+        // Toggle Complete
+        const response = await axios.post('api/todos/complete', 
+        {
+            _id,
+            'completed': !todo.completed
+        });
+
+        if(response.status !== 200) {
+            return;
+        }
+
         setTodos(
             todos.map(prevTodo => {
-                if(prevTodo._id !== id) {
+                if(prevTodo._id !== _id) {
                     return prevTodo;
                 };
                 prevTodo.completed = !prevTodo.completed;
