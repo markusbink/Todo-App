@@ -35,7 +35,7 @@ const TodoApp = () => {
         <StyledApp isDarkmodeEnabled={isDarkmodeEnabled}>
             <Header />
             <StyledWrapper>
-                <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled}>Daily-Todo</StyledTitle>
+                <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled}>What do you want to do?</StyledTitle>
                 <Todos />
                 <AddTodo />
             </StyledWrapper>
