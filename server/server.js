@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connectToDB = require('./config/db');
 const todosRouter = require('./routes/todos');
 
@@ -12,6 +13,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Listen to Port
 const PORT = process.env.PORT;

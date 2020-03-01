@@ -80,8 +80,22 @@ const TodoContextProvider = props => {
         setPriority(0);
     }
 
+    const handleDelete = async (_id) => {
+        const response = await axios.post('/api/todos/delete', {
+            _id
+        });
+
+        if (response.status !== 200) {
+            return;
+        }
+
+        setTodos(prevTodo => {
+            return prevTodo.filter(todo => todo._id !== _id);
+        });
+    }
+
     return (
-        <TodoContext.Provider value={{todos, handleTodoSubmit, todoInput, priority, handleTodoInput, handleCheckboxChange, handlePriority}}>
+        <TodoContext.Provider value={{todos, handleTodoSubmit, todoInput, priority, handleTodoInput, handleCheckboxChange, handlePriority, handleDelete}}>
             {props.children}
         </TodoContext.Provider>
     )

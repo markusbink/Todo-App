@@ -35,6 +35,22 @@ router.post('/create', async (req, res) => {
     }
 });
 
+// @route POST /api/todos/delete
+// @desc Delete a todo by id
+// @access Public
+router.post('/delete', async (req, res) => {
+    // Get request params
+    const { _id } = req.body;
+    // Delete todo by id
+    try {
+        let response = await Todo.remove({_id});
+        res.status(200).json(response);
+        
+    } catch(error) {
+        res.status(400).json({"new-error": error});
+    }
+});
+
 // @route POST /api/todos/complete
 // @desc Toggle complete status of a todo item
 // @access Public
