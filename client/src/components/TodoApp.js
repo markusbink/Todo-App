@@ -4,6 +4,8 @@ import Todos from './Todos';
 import AddTodo from './AddTodo';
 import Header from './Header';
 import { ThemeContext } from '../contexts/ThemeContext';
+import { TodoContext } from '../contexts/TodoContext';
+import EmptyTodos from './EmptyTodos';
 
 const StyledApp = styled.div`
     background: ${props => props.isDarkmodeEnabled ? '#1f212d' : '#fff'};
@@ -30,13 +32,14 @@ const StyledTitle = styled.h2`
 const TodoApp = () => {
 
     const { isDarkmodeEnabled } = useContext(ThemeContext);
+    const { todos } = useContext(TodoContext);
 
     return (
         <StyledApp isDarkmodeEnabled={isDarkmodeEnabled}>
             <Header />
             <StyledWrapper>
                 <StyledTitle isDarkmodeEnabled={isDarkmodeEnabled}>What do you want to do?</StyledTitle>
-                <Todos />
+                {todos.length > 0 ? <Todos /> : <EmptyTodos/>}
                 <AddTodo />
             </StyledWrapper>
 
