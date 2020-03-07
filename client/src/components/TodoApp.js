@@ -22,7 +22,7 @@ const StyledWrapper = styled.section`
 `;
 
 const StyledTitle = styled.h2`
-    color: ${props => props.isDarkmodeEnabled ? '#ffffff' : '#1f212d'};   
+    color: ${props => props.isDarkmodeEnabled ? '#888' : '#1f212d'};   
   text-align: center;
   font-size: 30px;
   font-family Roboto, sans-serif;

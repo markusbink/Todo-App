@@ -9,7 +9,7 @@ const EmptyWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    opacity: ${props => props.isDarkmodeEnabled ? '0.5' : '1'};
+    opacity: ${props => props.isDarkmodeEnabled ? '0.3' : '1'};
 `;
 
 const StyledTitle = styled.h3`
