@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { TodoContext } from '../contexts/TodoContext';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -28,7 +28,7 @@ const StyledTitle = styled.h3`
     `};
 `;
 
-const InfoWrapper = styled.div`
+const ContentWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin-left: 20px;
@@ -43,28 +43,75 @@ const StyledPriority = styled.span`
     display: inline-block;
     font-weight: 600;
 `;
-
-const StyledDelete = styled.svg`
+    
+const StyledMore = styled.svg`    
+    fill: ${props => props.isDarkmodeEnabled ? 'white' : 'black'};
     stroke: ${props => props.isDarkmodeEnabled ? 'white' : 'black'};
+    display: inline-block;
+    margin-left: 10px;
+`;
+
+const InfoWrapper = styled.span`
+    display: flex;
+`;
+
+const ContextMenu = styled.ul`
+    background: ${props => props.isDarkmodeEnabled ? '#35374b' : 'white'};
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
+    margin: 0;
+    padding: 0;
     position: absolute;
-    right: 0;
+    top: calc(100% - 15px);
+    right: 20px;
+    z-index: 99999;
+    list-style-type: none;
+    min-width: 150px;
+    border-radius: 4px;
+    overflow: hidden;
+`;
+
+const Item = styled.li`
+    color: ${props => props.isDarkmodeEnabled ? 'white' : '#35374b'};
+    padding: 10px;
+    box-sizing: border-box;
+    
+    &:hover {
+        background: ${props => props.isDarkmodeEnabled ? 'rgba(255,255,255,0.1)' : '#f2f2f2'};
+    }
+
+    &:not(:last-child) {
+        border-bottom: 1px solid ${props => props.isDarkmodeEnabled ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)'};
+    }
 `;
 
 
 const Todo = (props) => {
     const {handleCheckboxChange, handleDelete} = useContext(TodoContext);
     const {isDarkmodeEnabled} = useContext(ThemeContext);
+    const [isContextMenuVisible, setContextMenuVisible] = useState(false);
     const {todo} = props;
+
+    const toggleContextMenu = () => {
+        setContextMenuVisible(!isContextMenuVisible);
+    }
 
     return (
         <React.Fragment>
             <StyledTodo isDarkmodeEnabled={isDarkmodeEnabled}>
                 <Checkbox checked={todo.completed} onChange={() => handleCheckboxChange(todo._id)} />
-                <InfoWrapper>
+                <ContentWrapper>
                     <StyledTitle onClick={() => handleCheckboxChange(todo._id)} isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.completed}>{todo.title}</StyledTitle>
-                    <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
-                    <StyledDelete onClick={() => handleDelete(todo._id)} isDarkmodeEnabled={isDarkmodeEnabled} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></StyledDelete>
-                </InfoWrapper>
+                    <InfoWrapper>
+                        <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
+                        <StyledMore onClick={() => toggleContextMenu()} isDarkmodeEnabled={isDarkmodeEnabled} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle></StyledMore>
+                        {isContextMenuVisible &&
+                        <ContextMenu isDarkmodeEnabled={isDarkmodeEnabled}>
+                            <Item isDarkmodeEnabled={isDarkmodeEnabled}> Edit</Item>
+                            <Item isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => handleDelete(todo._id)}>Delete</Item>
+                        </ContextMenu>
+                        }
+                    </InfoWrapper>
+                </ContentWrapper>
             </StyledTodo>
         </React.Fragment>
     )

@@ -95,7 +95,17 @@ const TodoContextProvider = props => {
     }
 
     return (
-        <TodoContext.Provider value={{todos, handleTodoSubmit, todoInput, priority, handleTodoInput, handleCheckboxChange, handlePriority, handleDelete}}>
+        <TodoContext.Provider 
+            value={{
+                todos, 
+                handleTodoSubmit, 
+                todoInput, 
+                priority, 
+                handleTodoInput, 
+                handleCheckboxChange, 
+                handlePriority, 
+                handleDelete
+            }}>
             {props.children}
         </TodoContext.Provider>
     )
