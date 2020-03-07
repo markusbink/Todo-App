@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
 import EmptySVG from '../assets/empty.svg';
+import { ThemeContext } from '../contexts/ThemeContext';
+
 
 const EmptyWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    opacity: ${props => props.isDarkmodeEnabled ? '0.5' : '1'};
 `;
 
 const StyledTitle = styled.h3`
@@ -22,8 +25,12 @@ const StyledImage = styled.img`
 `;
 
 const EmptyTodos = () => {
+
+    const { isDarkmodeEnabled } = useContext(ThemeContext);
+
+
     return (
-        <EmptyWrapper>
+        <EmptyWrapper isDarkmodeEnabled={isDarkmodeEnabled}>
             <StyledImage src={EmptySVG} />
             <StyledTitle>No Todos yet...</StyledTitle>
         </EmptyWrapper>
