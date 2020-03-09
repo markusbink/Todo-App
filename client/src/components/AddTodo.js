@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { TodoContext } from "../contexts/TodoContext";
 import { ThemeContext } from "../contexts/ThemeContext";
 import styled from 'styled-components';
@@ -56,20 +56,40 @@ const StyledButton = styled.button`
 `;
 
 const AddTodo = () => {
-
-    const { todoInput, handleTodoInput, priority, handlePriority, handleTodoSubmit } = useContext(TodoContext);
+    // AddTodo State
+    const [todo, setTodo] = useState({
+        title: '',
+        priority: 0
+    });
+    // Get values from context
+    const { handleTodoSubmit } = useContext(TodoContext);
     const { isDarkmodeEnabled } = useContext(ThemeContext);
 
+    // Change handlers
+    const handleTitle = (e) => {
+        setTodo({ ...todo, title: e.target.value});
+    }
+
+    const handlePriority = (e) => {
+        setTodo({ ...todo, priority: e.target.value});
+    }
+
+    const submitTodo = (e) => {
+        handleTodoSubmit(e, todo.title, todo.priority);
+        setTodo({ ...todo, title: ''});
+        setTodo({ ...todo, priority: 0});
+    }
+
     return (
-        <FormWrapper onSubmit={handleTodoSubmit}>
+        <FormWrapper onSubmit={(e) => submitTodo(e)}>
             <InputWrapper>
             <StyledLabel width={70} htmlFor="todo">
                 Todo
-                <StyledInput id="todo" type="text" isDarkmodeEnabled={isDarkmodeEnabled} placeholder="Add a new Todo..." value={todoInput} onChange={handleTodoInput} />
+                <StyledInput id="todo" type="text" isDarkmodeEnabled={isDarkmodeEnabled} placeholder="Add a new Todo..." value={todo.title} onChange={(e) => handleTitle(e)} />
             </StyledLabel>
             <StyledLabel width={30} htmlFor="priority">
                 Priority
-                <StyledInput id="priority" type="number" isDarkmodeEnabled={isDarkmodeEnabled} value={priority} onChange={handlePriority} min="0" />
+                <StyledInput id="priority" type="number" isDarkmodeEnabled={isDarkmodeEnabled} value={todo.priority} onChange={(e) => handlePriority(e)} min="0" />
             </StyledLabel>
             </InputWrapper>
             <StyledButton>Add Item +</StyledButton>

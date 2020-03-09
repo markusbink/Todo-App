@@ -35,6 +35,27 @@ router.post('/create', async (req, res) => {
     }
 });
 
+// @route POST /api/todos/update
+// @desc Update an existing todo
+// @access Public
+router.post('/update', async (req, res) => {
+    // Get request params
+    const { _id, title, priority } = req.body;
+    console.log(req.body);
+    // Update todo by id
+    try {
+        let response = await Todo.findOneAndUpdate(
+            { _id }, 
+            {
+                title,
+                priority
+            });
+        res.status(200).json(response);
+    } catch(error) {
+        res.status(400).json({error});
+    }
+});
+
 // @route POST /api/todos/delete
 // @desc Delete a todo by id
 // @access Public
@@ -43,7 +64,7 @@ router.post('/delete', async (req, res) => {
     const { _id } = req.body;
     // Delete todo by id
     try {
-        let response = await Todo.remove({_id});
+        let response = await Todo.deleteOne({_id});
         res.status(200).json(response);
         
     } catch(error) {

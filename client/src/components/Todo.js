@@ -84,34 +84,128 @@ const Item = styled.li`
     }
 `;
 
+const FormWrapper = styled.form`
+    overflow: hidden;
+    width: 100%;
+`;
+
+const InputWrapper = styled.div`
+    display: flex;  
+`;
+
+
+const StyledLabel = styled.label`
+    display: block;
+    float: left;
+    font-family Roboto, sans-serif;
+    cursor: pointer;
+    color: #888;
+    width: ${props => `${props.width}%`};
+
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
+`;
+
+const StyledInput = styled.input`
+    background: ${props => props.isDarkmodeEnabled ? '#35374b' : '#f5f5f5'};
+    border: 2px solid #5a4fff;
+    border-radius: 4px;
+    padding: 15px 20px;
+    font-size: 14px;
+    color: ${props => props.isDarkmodeEnabled ? 'white' : '#888'};
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+
+    &:focus {
+        outline: none;
+    }
+`;
+
+const StyledButton = styled.button`
+    border: 0;
+    border-radius: 4px;
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 14px;
+    float: right;
+    background: #5a4fff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+`;
 
 const Todo = (props) => {
-    const {handleCheckboxChange, handleDelete} = useContext(TodoContext);
-    const {isDarkmodeEnabled} = useContext(ThemeContext);
-    const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+    // Get values from props
     const {todo} = props;
-
+    // Todo State
+    const [editTodo, setEditTodo] = useState({
+        title: todo.title,
+        priority: todo.priority
+    });
+    const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+    const [isEditable, setIsEditable] = useState(false);
+    // Get values from context
+    const {handleCheckboxChange, handleDelete, handleTodoEdit} = useContext(TodoContext);
+    const {isDarkmodeEnabled} = useContext(ThemeContext);
+    
+    // Change handlers
     const toggleContextMenu = () => {
         setContextMenuVisible(!isContextMenuVisible);
+    }
+
+    const toggleEditable = () => {
+        setIsEditable(!isEditable);
+        toggleContextMenu();
+    }
+
+    const handleTitle = (e) => {
+        setEditTodo({ ...editTodo, title: e.target.value});
+    }
+
+    const handlePriority = (e) => {
+        setEditTodo({ ...editTodo, priority: e.target.value});
+    }
+
+    const submitChanges = (e, id) => {
+        setIsEditable(!isEditable);
+        handleTodoEdit(e, id, editTodo.title, editTodo.priority);
     }
 
     return (
         <React.Fragment>
             <StyledTodo isDarkmodeEnabled={isDarkmodeEnabled}>
-                <Checkbox checked={todo.completed} onChange={() => handleCheckboxChange(todo._id)} />
-                <ContentWrapper>
-                    <StyledTitle onClick={() => handleCheckboxChange(todo._id)} isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.completed}>{todo.title}</StyledTitle>
-                    <InfoWrapper>
-                        <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
-                        <StyledMore onClick={() => toggleContextMenu()} isDarkmodeEnabled={isDarkmodeEnabled} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle></StyledMore>
-                        {isContextMenuVisible &&
-                        <ContextMenu isDarkmodeEnabled={isDarkmodeEnabled}>
-                            <Item isDarkmodeEnabled={isDarkmodeEnabled}> Edit</Item>
-                            <Item isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => handleDelete(todo._id)}>Delete</Item>
-                        </ContextMenu>
-                        }
-                    </InfoWrapper>
-                </ContentWrapper>
+                {!isEditable ? 
+                <React.Fragment>
+                    <Checkbox checked={todo.completed} onChange={() => handleCheckboxChange(todo._id)} />
+                    <ContentWrapper>
+                        <StyledTitle onClick={() => handleCheckboxChange(todo._id)} isDarkmodeEnabled={isDarkmodeEnabled} isCompleted={todo.completed}>{todo.title}</StyledTitle>
+                        <InfoWrapper>
+                            <StyledPriority isDarkmodeEnabled={isDarkmodeEnabled}>{todo.priority}</StyledPriority>
+                            <StyledMore onClick={() => toggleContextMenu()} isDarkmodeEnabled={isDarkmodeEnabled} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle></StyledMore>
+                            {isContextMenuVisible &&
+                            <ContextMenu isDarkmodeEnabled={isDarkmodeEnabled}>
+                                <Item isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => toggleEditable()}> Edit</Item>
+                                <Item isDarkmodeEnabled={isDarkmodeEnabled} onClick={() => handleDelete(todo._id)}>Delete</Item>
+                            </ContextMenu>
+                            }
+                        </InfoWrapper>
+                    </ContentWrapper>
+                </React.Fragment>
+                : 
+                <FormWrapper onSubmit={(e) => submitChanges(e, todo._id)}>
+                    <InputWrapper>
+                    <StyledLabel width={70} htmlFor="todo">
+                        <StyledInput id="todo" type="text" isDarkmodeEnabled={isDarkmodeEnabled} placeholder="Add a new Todo..." value={editTodo.title} onChange={e => handleTitle(e)} />
+                    </StyledLabel>
+                    <StyledLabel width={30} htmlFor="priority">
+                        <StyledInput id="priority" type="number" isDarkmodeEnabled={isDarkmodeEnabled} value={editTodo.priority} onChange={e => handlePriority(e)} min="0" />
+                    </StyledLabel>
+                    </InputWrapper>
+                    <StyledButton>Save Changes</StyledButton>
+                </FormWrapper>
+                }
             </StyledTodo>
         </React.Fragment>
     )

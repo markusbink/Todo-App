@@ -4,9 +4,7 @@ import axios from 'axios';
 export const TodoContext = createContext();
 
 const TodoContextProvider = props => {
-
-    const [todoInput, setTodoInput] = useState('');
-    const [priority, setPriority] = useState(0);
+    // Global Todo State
     const [todos, setTodos] = useState([]);
 
     // Render all Todos on component mount
@@ -25,14 +23,7 @@ const TodoContextProvider = props => {
         fetchTodos();
     }, []);
 
-    const handleTodoInput = (e) => {
-        setTodoInput(e.target.value);
-    }
-
-    const handlePriority = (e) => {
-        setPriority(e.target.value);
-    }
-
+    // Handles Change when Checkbox is clicked
     const handleCheckboxChange = async (_id) => {
         // Get Todo by Id
         const todo = todos.filter(todo => todo._id === _id)[0];
@@ -58,16 +49,17 @@ const TodoContextProvider = props => {
         )
     }
 
-    const handleTodoSubmit = async (e) => {
+    // Create a new Todo
+    const handleTodoSubmit = async (e, title, priority) => {
         e.preventDefault();       
 
-        if(todoInput.length === 0 || priority.length === 0) {
+        if(title.length === 0 || priority.length === 0) {
             return;
         }
 
         const response = await axios.post('api/todos/create',
         {
-            'title': todoInput.trim(),
+            'title': title.trim(),
             priority
         });
 
@@ -76,10 +68,38 @@ const TodoContextProvider = props => {
         }
 
         setTodos([...todos, response.data]);
-        setTodoInput('');
-        setPriority(0);
     }
 
+    // Update an existing todo
+    const handleTodoEdit = async (e, _id, title, priority) => {
+        e.preventDefault();
+
+        if(title.length === 0 || priority.length === 0) {
+            return;
+        }
+
+        const response = await axios.post('api/todos/update',
+        {
+            _id,
+            title: title.trim(),
+            priority
+        });
+
+        if(response.status !== 200) {
+            return;
+        }
+        setTodos(
+            todos.map(prevTodo => {
+                if(prevTodo._id !== _id) {
+                    return prevTodo;
+                };
+                prevTodo.title = title;
+                prevTodo.priority = parseInt(priority);
+                return prevTodo;
+        }));
+    }
+
+    // Delete an existing todo
     const handleDelete = async (_id) => {
         const response = await axios.post('/api/todos/delete', {
             _id
@@ -89,8 +109,8 @@ const TodoContextProvider = props => {
             return;
         }
 
-        setTodos(prevTodo => {
-            return prevTodo.filter(todo => todo._id !== _id);
+        setTodos(prevTodos => {
+            return prevTodos.filter(todo => todo._id !== _id);
         });
     }
 
@@ -99,11 +119,8 @@ const TodoContextProvider = props => {
             value={{
                 todos, 
                 handleTodoSubmit, 
-                todoInput, 
-                priority, 
-                handleTodoInput, 
+                handleTodoEdit,
                 handleCheckboxChange, 
-                handlePriority, 
                 handleDelete
             }}>
             {props.children}
