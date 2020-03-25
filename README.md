@@ -7,7 +7,7 @@ A Todo-List App built with ReactJS.
 ### Prerequisites
 
 You need to create a MONGO_URI in order to store your todos in a database (https://www.mongodb.com/)  
-Create an config.env file inside `/server/config` and put your Connection String in there
+Create a config.env file inside `/server/config` and put your Connection String in there
 
 ```
 MONGO_URI=yourconnectionstring
