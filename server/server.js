@@ -5,7 +5,7 @@ const connectToDB = require('./config/db');
 const todosRouter = require('./routes/todos');
 
 // Get Environment Variables
-dotenv.config({path: './config/config.env'});
+dotenv.config({ path: './config/config.env' });
 connectToDB();
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Listen to Port
-const PORT = process.env.PORT;
+const PORT = parseInt(process.env.PORT) || 5000;
 app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));
 
 // Routes
