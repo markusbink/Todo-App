@@ -68,7 +68,7 @@ router.post('/delete', async (req, res) => {
         res.status(200).json(response);
 
     } catch (error) {
-        res.status(500).json({ "new-error": error });
+        res.status(500).json({ error });
     }
 });
 
