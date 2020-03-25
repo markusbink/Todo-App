@@ -87,7 +87,6 @@ const Item = styled.li`
 
 
 const Todo = ({ todo }) => {
-
     const [isContextMenuVisible, setContextMenuVisible] = useState(false);
     const [isEditable, setIsEditable] = useState(false);
 

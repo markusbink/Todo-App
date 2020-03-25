@@ -12,11 +12,11 @@ const TodoContextProvider = props => {
         async function fetchTodos() {
             try {
                 const response = await axios.get('api/todos');
-                if(response.status !== 200) {
+                if (response.status !== 200) {
                     return;
                 }
                 setTodos(response.data);
-            } catch(error) {
+            } catch (error) {
                 console.log(error);
             }
         }
@@ -28,19 +28,19 @@ const TodoContextProvider = props => {
         // Get Todo by Id
         const todo = todos.filter(todo => todo._id === _id)[0];
         // Toggle Complete
-        const response = await axios.post('api/todos/complete', 
-        {
-            _id,
-            'completed': !todo.completed
-        });
+        const response = await axios.post('api/todos/update',
+            {
+                _id,
+                'completed': !todo.completed
+            });
 
-        if(response.status !== 200) {
+        if (response.status !== 200) {
             return;
         }
 
         setTodos(
             todos.map(prevTodo => {
-                if(prevTodo._id !== _id) {
+                if (prevTodo._id !== _id) {
                     return prevTodo;
                 };
                 prevTodo.completed = !prevTodo.completed;
@@ -51,19 +51,19 @@ const TodoContextProvider = props => {
 
     // Create a new Todo
     const handleTodoSubmit = async (e, title, priority) => {
-        e.preventDefault();       
+        e.preventDefault();
 
-        if(title.length === 0 || priority.length === 0) {
+        if (title.length === 0 || priority.length === 0) {
             return;
         }
 
         const response = await axios.post('api/todos/create',
-        {
-            'title': title.trim(),
-            priority
-        });
+            {
+                'title': title.trim(),
+                priority
+            });
 
-        if(response.status !== 200) {
+        if (response.status !== 200) {
             return;
         }
 
@@ -74,29 +74,29 @@ const TodoContextProvider = props => {
     const handleTodoEdit = async (e, _id, title, priority) => {
         e.preventDefault();
 
-        if(title.length === 0 || priority.length === 0) {
+        if (title.length === 0 || priority.length === 0) {
             return;
         }
 
         const response = await axios.post('api/todos/update',
-        {
-            _id,
-            title: title.trim(),
-            priority
-        });
+            {
+                _id,
+                title: title.trim(),
+                priority
+            });
 
-        if(response.status !== 200) {
+        if (response.status !== 200) {
             return;
         }
         setTodos(
             todos.map(prevTodo => {
-                if(prevTodo._id !== _id) {
+                if (prevTodo._id !== _id) {
                     return prevTodo;
                 };
                 prevTodo.title = title;
                 prevTodo.priority = parseInt(priority);
                 return prevTodo;
-        }));
+            }));
     }
 
     // Delete an existing todo
@@ -115,12 +115,12 @@ const TodoContextProvider = props => {
     }
 
     return (
-        <TodoContext.Provider 
+        <TodoContext.Provider
             value={{
-                todos, 
-                handleTodoSubmit, 
+                todos,
+                handleTodoSubmit,
                 handleTodoEdit,
-                handleCheckboxChange, 
+                handleCheckboxChange,
                 handleDelete
             }}>
             {props.children}

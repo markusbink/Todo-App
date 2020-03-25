@@ -21,6 +21,3 @@ app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`)
 
 // Routes
 app.use('/api/todos', todosRouter);
-
-
-

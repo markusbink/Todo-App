@@ -40,17 +40,23 @@ router.post('/create', async (req, res) => {
 // @access Public
 router.post('/update', async (req, res) => {
     // Get request params
-    const { _id, title, priority } = req.body;
-    console.log(req.body);
+    const { _id, title, priority, completed } = req.body;
+
     // Update todo by id
     try {
-        let response = await Todo.findOneAndUpdate(
-            { _id },
-            {
-                title,
-                priority
-            });
-        res.status(200).json(response);
+        const todo = await Todo.findById(_id);
+
+        if (title != undefined) {
+            todo.title = title;
+        }
+        if (priority != undefined) {
+            todo.priority = priority;
+        }
+        if (completed != undefined) {
+            todo.completed = completed;
+        }
+        await todo.save();
+        res.status(200).json(todo);
     } catch (error) {
         res.status(500).json({ error });
     }
@@ -66,27 +72,9 @@ router.post('/delete', async (req, res) => {
     try {
         let response = await Todo.deleteOne({ _id });
         res.status(200).json(response);
-
     } catch (error) {
         res.status(500).json({ error });
     }
-});
-
-// @route POST /api/todos/complete
-// @desc Toggle complete status of a todo item
-// @access Public
-router.post('/complete', async (req, res) => {
-    // Get request params    
-    const { _id, completed } = req.body;
-    // Toggle complete
-    try {
-        const todo = await Todo.findById(_id);
-        todo.completed = completed;
-        await todo.save();
-        res.status(200).json(todo);
-    } catch (error) {
-        res.status(500).json({ error });
-    };
 });
 
 module.exports = router;
