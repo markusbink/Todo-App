@@ -9,9 +9,9 @@ router.get('/', async (req, res) => {
     try {
         const todos = await Todo.find();
         res.status(200).json(todos);
-    } catch(error) {
-        res.status(400).json({error});
-    }  
+    } catch (error) {
+        res.status(500).json({ error });
+    }
 });
 
 // @route POST /api/todos/create
@@ -30,8 +30,8 @@ router.post('/create', async (req, res) => {
     try {
         await todo.save();
         res.status(200).json(todo);
-    } catch(error) {
-        res.status(400).json({error});
+    } catch (error) {
+        res.status(500).json({ error });
     }
 });
 
@@ -45,14 +45,14 @@ router.post('/update', async (req, res) => {
     // Update todo by id
     try {
         let response = await Todo.findOneAndUpdate(
-            { _id }, 
+            { _id },
             {
                 title,
                 priority
             });
         res.status(200).json(response);
-    } catch(error) {
-        res.status(400).json({error});
+    } catch (error) {
+        res.status(500).json({ error });
     }
 });
 
@@ -64,11 +64,11 @@ router.post('/delete', async (req, res) => {
     const { _id } = req.body;
     // Delete todo by id
     try {
-        let response = await Todo.deleteOne({_id});
+        let response = await Todo.deleteOne({ _id });
         res.status(200).json(response);
-        
-    } catch(error) {
-        res.status(400).json({"new-error": error});
+
+    } catch (error) {
+        res.status(500).json({ "new-error": error });
     }
 });
 
@@ -84,8 +84,8 @@ router.post('/complete', async (req, res) => {
         todo.completed = completed;
         await todo.save();
         res.status(200).json(todo);
-    } catch(error) {
-        res.status(400).json({error});
+    } catch (error) {
+        res.status(500).json({ error });
     };
 });
 
