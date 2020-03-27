@@ -26,6 +26,9 @@ const TodoContextProvider = props => {
     // Handles Change when Checkbox is clicked
     const handleCheckboxChange = async (_id) => {
         // Get Todo by Id
+        if (todos.length === 0) {
+            return;
+        }
         const todo = todos.filter(todo => todo._id === _id)[0];
         // Toggle Complete
         const response = await axios.post('api/todos/update',
