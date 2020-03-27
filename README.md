@@ -1,6 +1,6 @@
 # Todo List with React JS
 
-![Thumbnail](../screenshot-app.png)
+![Thumbnail](../screenshot-app.png?raw=true)
 
 A Todo-List App built with ReactJS.
 
