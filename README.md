@@ -1,6 +1,6 @@
 # Todo List with React JS
 
-![Thumbnail](thumbnail-darkmode.png)
+![Thumbnail](../assets/thumbnail-darkmode.png)
 
 A Todo-List App built with ReactJS.
 
